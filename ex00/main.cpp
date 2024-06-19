@@ -1,35 +1,5 @@
 #include "BitcoinExchange.hpp"
 
-int	mprint_invalid_amount(void)
-{
-	std::cout << "Error: Invalid amount of bitcoin" << std::endl;
-	return (1);
-}
-
-int mprint(std::string str)
-{
-	std::cout << str << std::endl;
-	return (0);
-}
-
-int	strToInt(std::string str)
-{
-	std::stringstream ss;
-	int	ret;
-	ss << str;
-	ss >> ret;
-	return ret;
-}
-
-float	strToFloat(std::string str)
-{
-	std::stringstream ss;
-	float	ret;
-	ss << str;
-	ss >> ret;
-	return ret;
-}
-
 bool is_valid_date(std::string const date_o)
 {
 	std::string date = (std::string) date_o;

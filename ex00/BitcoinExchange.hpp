@@ -6,7 +6,7 @@
 /*   By: qdo <qdo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:19:08 by qdo               #+#    #+#             */
-/*   Updated: 2024/06/19 08:48:04 by qdo              ###   ########.fr       */
+/*   Updated: 2024/06/19 09:27:22 by qdo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,9 @@ bool							valid_data(std::string const &actual);
 std::string						actualString(std::string const & str_o);
 std::map<std::string, float>	data_input(std::string const file_name);
 int								mprint_invalid_amount(void);
+float							strToFloat(std::string str);
+int								strToInt(std::string str);
+int								mprint(std::string str);
+int								mprint_invalid_amount(void);
+
 #endif
