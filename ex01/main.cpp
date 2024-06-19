@@ -3,10 +3,7 @@
 #include <stack>
 
 int	iteToInt(std::string::iterator ite)
-{
-	int ret = *ite - '0';
-	return ret;
-}
+{	return *ite = '0'; }
 
 int oprint(std::string str)
 {
@@ -21,13 +18,16 @@ int eprint(std::string str)
 
 int	ret(int a, int b, std::string::iterator ite)
 {
+	int ret;
 	if (*ite == '+')
-		return (a + b);
-	if (*ite == 'b')
-		return (a - b);
-	if (*ite == '*')
-		return (a * b);
-	return (a / b);
+		ret = b + a;
+	else if (*ite == '-')
+		ret = b - a;
+	else if (*ite == '*')
+		ret = b * a;
+	else
+		ret = b / a;
+	return ret;
 }
 
 int	main(int ac, char **av)
@@ -56,7 +56,7 @@ int	main(int ac, char **av)
 			mStack.pop();
 			b = mStack.top();
 			mStack.pop();
-			if (b == 0 && *ite == '/')
+			if (a == 0 && *ite == '/')
 				return (eprint("can't divided by 0"));
 			mStack.push(ret(a, b, ite));
 		}
