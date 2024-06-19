@@ -1,9 +1,8 @@
-NAME = a.out
+NAME = RPN
 CXX = c++
 CXXFLAGS = -Wall -Werror -Wextra -std=c++98
 SRC = \
-	  BitcoinExchange.cpp\
-	  parsing_data.cpp\
+	  RPN.cpp\
 	  main.cpp
 
 OBJS = $(SRC:.cpp=.o)
