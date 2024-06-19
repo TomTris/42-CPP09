@@ -10,6 +10,8 @@ bool	valid_data(std::string const &actual)
 		std::cerr << "Error: Too short line1" << std::endl;
 		return (false);
 	}
+	if (!is_valid_date(actual))
+		return (false);
 	std::string str = (std::string) actual;
 
 	ite = str.begin();
@@ -23,7 +25,7 @@ bool	valid_data(std::string const &actual)
 					return (std::cerr << "Not valid date" << std::endl, false);
 			}
 			else if (*ite != ',')
-				return (std::cerr << "Not valid date" << std::endl, false);
+				return (std::cerr << "Not valid info" << std::endl, false);
 		}
 		else
 		{
@@ -91,11 +93,7 @@ std::map<std::string, float>	get_data(std::string const &file_name)
 		date = actual.substr(0, 10);
 		value_str = actual.substr(11, actual.size() - 11);
 		value_f = str_to_float(value_str);
-		// std::cout << "actual = {" << actual << "}, value str = {" << value_str << "}, value_f = {" << value_f << "}" << std::endl;
 		data[date] = value_f;
-		if (date == "2011-01-03")
-			std::cout << value_f << std::endl;
-		// std::cout << "date = " << date << ", price = " << value_f << std::endl;
 	}
 	infile.close();
 	return (data);
