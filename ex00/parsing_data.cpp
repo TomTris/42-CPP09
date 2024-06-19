@@ -42,16 +42,6 @@ bool	valid_data(std::string const &actual)
 	return (true);
 }
 
-float	str_to_float(std::string str)
-{
-	std::stringstream ss;
-	float ret;
-
-	ss << str;
-	ss >> ret;
-	return ret;
-}
-
 std::map<std::string, float>	get_data(std::string const &file_name)
 {
 	std::string			str;
@@ -80,7 +70,6 @@ std::map<std::string, float>	get_data(std::string const &file_name)
 		infile.close();
 		throw StopF();
 	}
-// int	i = 0;
 	while (std::getline(infile, str))
 	{
 		actual = actualString(str);
@@ -92,7 +81,7 @@ std::map<std::string, float>	get_data(std::string const &file_name)
 		}
 		date = actual.substr(0, 10);
 		value_str = actual.substr(11, actual.size() - 11);
-		value_f = str_to_float(value_str);
+		value_f = strToFloat(value_str);
 		data[date] = value_f;
 	}
 	infile.close();
