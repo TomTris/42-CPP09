@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
+/*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qdo <qdo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 14:18:58 by qdo               #+#    #+#             */
-/*   Updated: 2024/06/18 17:43:04 by qdo              ###   ########.fr       */
+/*   Created: 2024/06/19 09:31:12 by qdo               #+#    #+#             */
+/*   Updated: 2024/06/19 09:32:11 by qdo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "BitcoinExchange.hpp"
-
-const char *StopF::what() const throw()
-{
-	return ("Programm stops");
-}
+#include "RPN.hpp"
 
 std::string actualString(std::string const & str_o)
 {
