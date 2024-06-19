@@ -3,7 +3,6 @@ CXX = c++
 CXXFLAGS = -Wall -Werror -Wextra -std=c++98
 SRC = \
 	  BitcoinExchange.cpp\
-	  parsing_data_input.cpp\
 	  parsing_data.cpp\
 	  main.cpp
 
