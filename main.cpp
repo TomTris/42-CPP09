@@ -1,68 +1,95 @@
-#include <vector>
-#include <algorithm>
-#include <iostream>
-#include <sstream>
+#include "PmergeMe.hpp"
 
-int oprint(std::string str)
+void	check_sorted(std::vector<std::pair<int, int> >&uper)
 {
-	std::cout << str << std::endl;
-	return (0);
-}
-int eprint(std::string str)
-{
-	std::cout << "Error: " << str << std::endl;
-	return (1);
-}
-
-bool invalid_number(std::string str)
-{
-	if (str.size() == 0)
-		return (eprint("Size = 0"), false);
-	std::string::iterator ite = str.begin();
-	if (*ite == '+' || *ite == '-')
-		ite++;
-	ite--;
-	while (++ite != str.end())
+	std::vector<std::pair<int, int> >::iterator ite = uper.begin() - 1;
+	while (++ite != uper.end() - 1)
 	{
-		if (!std::isdigit(*ite))
-			return (eprint("Invalid character"), false);
+		if (ite->first > (ite + 1)->first)
+		{
+			std::cout << "Not sorted" << std::endl;
+			return ;
+		}
 	}
-	return (true);
 }
 
-bool av_check(char **av)
+// bool sortByFirst(const std::pair<int, int>& left, const std::pair<int, int>& right) {
+//     return left.first < right.first;
+// }
+// std::sort(uper.begin(), uper.end(), sortByFirst);
+
+unsigned int	y_nb_gen(int check, std::vector<std::pair<int, int> > &lower)
 {
-	int	i = 0;
-	while (av[++i])
-		if (!invalid_number(static_cast<std::string>(av[i])))
-			return (false);
-	return (true);
+	static unsigned int	ret = 0;
+	static unsigned int	size = 0;
+	static unsigned int a = 0;
+	static unsigned int b = 0;
+	
+	if (check == 1)
+	{
+
+	}
 }
 
-void generate(std::vector<int> & mVec, char **av)
+void	minsert(std::vector<std::pair<int, int> > &uper, std::vector<std::pair<int, int> > &lower)
 {
-	int i = 0;
-	while (av[++i])
-		mVec.push_back(std::atoi(av[i]));
-	return ;
+	int	cnt = 0;
+	(void) lower;
+
+	uper.insert(uper.begin(), *lower.begin());
+	
 }
 
-void mVecPrint(std::vector<int> mVec)
+void	mmerge(std::vector<std::pair<int, int> > & mVec)
 {
-	std::vector<int>::iterator ite = mVec.begin() - 1;
-	int	i = 0;
-	while (++ite != mVec.end())
-		std::cout << mVec.at(i++) << " " << std::ends;
+	if (mVec.size() == 1)
+		return ;
+	if (mVec.size() == 2)
+	{
+		if (mVec[0].first > mVec[1].first)
+			std::swap(mVec[0], mVec[1]);
+		return ;
+	}
+	unsigned int	cnt = 0;
+	std::vector<std::pair<int, int> > uper;
+	std::vector<std::pair<int, int> > lower;
+	while (cnt * 2 + 2 <= mVec.size())
+	{
+		if (mVec[cnt * 2] > mVec[cnt * 2 + 1])
+		{
+			uper.push_back(std::make_pair(mVec[cnt * 2].first, cnt));
+			lower.push_back(std::make_pair(mVec[cnt * 2 + 1].first, cnt));
+		}
+		else
+		{
+			lower.push_back(std::make_pair(mVec[cnt * 2].first, cnt));
+			uper.push_back(std::make_pair(mVec[cnt * 2 + 1].first, cnt));
+		}
+		cnt += 1;
+	}
+	if (mVec.size() == cnt * 2 + 1)
+		lower.push_back(std::make_pair(mVec[cnt * 2].first, cnt));
+	mmerge(uper);
+	minsert(uper, lower);
+	mVec = uper;
 }
-
 
 
 int	main(int ac, char **av)
 {
-	std::vector<int> mVec;
+	std::vector<int> mVec_o;
 	if (ac <= 2)
 		return (0);
 	if (av_check(av) == false)
 		return (1);
-	generate(mVec, av);
+	generate(mVec_o, av);
+
+	std::vector<std::pair<int, int> > mVec;
+	for (unsigned int i = 0; i < mVec_o.size(); i++)
+	{
+		mVec.push_back(std::make_pair(mVec_o[i], i));
+	}
+	mmerge(mVec);
+	std::cout << "mVec.size() = " << mVec.size() << std::endl;
+	mVecPrint(mVec);
 }
