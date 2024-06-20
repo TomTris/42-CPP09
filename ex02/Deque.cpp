@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Deque.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qdo <qdo@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/20 16:40:41 by qdo               #+#    #+#             */
+/*   Updated: 2024/06/20 16:44:23 by qdo              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "PmergeMe.hpp"
 
-unsigned int	jacob_gen(int check, std::vector<std::pair<int, int> > &lower)
+unsigned int	djacob_gen(int check, std::deque<std::pair<int, int> > &lower)
 {
 	static unsigned int	ret = 0;
 	static unsigned int a = 2;
@@ -24,7 +36,7 @@ unsigned int	jacob_gen(int check, std::vector<std::pair<int, int> > &lower)
 	return (ret);
 }
 
-void	binary_sort(std::vector<std::pair<int, int> >&uper, std::pair<int, int> &lower,
+void	dbinary_sort(std::deque<std::pair<int, int> >&uper, std::pair<int, int> &lower,
 		unsigned int start, unsigned int end)
 {
 	unsigned int	middle = (end + start) / 2;
@@ -38,12 +50,12 @@ void	binary_sort(std::vector<std::pair<int, int> >&uper, std::pair<int, int> &lo
 		return ;
 	}
 	if (lower.first < uper[middle].first)
-		binary_sort(uper, lower, start, middle);
+		dbinary_sort(uper, lower, start, middle);
 	else
-		binary_sort(uper, lower, middle + 1, end);
+		dbinary_sort(uper, lower, middle + 1, end);
 }
 
-void	minsert(std::vector<std::pair<int, int> > &uper, std::vector<std::pair<int, int> > &lower)
+void	dminsert(std::deque<std::pair<int, int> > &uper, std::deque<std::pair<int, int> > &lower)
 {
 	(void) lower;
 	unsigned int low_i;
@@ -53,22 +65,22 @@ void	minsert(std::vector<std::pair<int, int> > &uper, std::vector<std::pair<int,
 		odd_nbr = true;
 	uper.insert(uper.begin(), *lower.begin());
 	lower.erase(lower.begin());
-	low_i = jacob_gen(1, lower);
+	low_i = djacob_gen(1, lower);
 	while (lower.size() >= 2)
 	{
-		binary_sort(uper, lower[low_i], 0, uper.size() - 1);
+		dbinary_sort(uper, lower[low_i], 0, uper.size() - 1);
 		lower.erase(lower.begin() + low_i);
-		low_i = jacob_gen(0, lower);
+		low_i = djacob_gen(0, lower);
 	}
 	if (odd_nbr == true && lower[0].first > uper[uper.size() - 1].first)
 		uper.push_back(lower[0]);
 	else
-		binary_sort(uper, lower[0], 0, uper.size() - 1);
+		dbinary_sort(uper, lower[0], 0, uper.size() - 1);
 }
 
-void	change_pair_lower(std::vector<std::pair<int, int> > &uper, std::vector<std::pair <int, int> > &lower)
+void	dchange_pair_lower(std::deque<std::pair<int, int> > &uper, std::deque<std::pair <int, int> > &lower)
 {
-	std::vector<std::pair<int, int> > lower2;
+	std::deque<std::pair<int, int> > lower2;
 	unsigned int cnt;
 	unsigned int cnt2;
 	unsigned int uper_o_size = uper.size();
@@ -95,7 +107,7 @@ void	change_pair_lower(std::vector<std::pair<int, int> > &uper, std::vector<std:
 		lower.push_back(lower2[lower2.size() - 1]);
 }
 
-void	set_pair_uper(std::vector<std::pair<int, int> > & mVec, std::vector<std::pair<int, int> > & uper)
+void	dset_pair_uper(std::deque<std::pair<int, int> > & mVec, std::deque<std::pair<int, int> > & uper)
 {
 	unsigned int	i = 0;
 	unsigned int	uper_size = uper.size();
@@ -117,7 +129,7 @@ void	set_pair_uper(std::vector<std::pair<int, int> > & mVec, std::vector<std::pa
 	}
 }
 
-void	mmerge(std::vector<std::pair<int, int> > & mVec)
+void	dmmerge(std::deque<std::pair<int, int> > & mVec)
 {
 	if (mVec.size() == 1)
 		return ;
@@ -128,8 +140,8 @@ void	mmerge(std::vector<std::pair<int, int> > & mVec)
 		return ;
 	}
 	unsigned int	cnt = 0;
-	std::vector<std::pair<int, int> > uper;
-	std::vector<std::pair<int, int> > lower;
+	std::deque<std::pair<int, int> > uper;
+	std::deque<std::pair<int, int> > lower;
 	while (cnt * 2 + 2 <= mVec.size())
 	{
 		if (mVec[cnt * 2] > mVec[cnt * 2 + 1])
@@ -146,14 +158,14 @@ void	mmerge(std::vector<std::pair<int, int> > & mVec)
 	}
 	if (mVec.size() == cnt * 2 + 1)
 		lower.push_back(std::make_pair(mVec[cnt * 2].first, cnt));
-	mmerge(uper);
-	change_pair_lower(uper, lower);
-	minsert(uper, lower);
-	set_pair_uper(mVec, uper);
+	dmmerge(uper);
+	dchange_pair_lower(uper, lower);
+	dminsert(uper, lower);
+	dset_pair_uper(mVec, uper);
 	mVec = uper;
 }
 
-void generate(std::vector<int> & mVec, char **av)
+void dgenerate(std::deque<int> & mVec, char **av)
 {
 	int i = 0;
 	while (av[++i])
@@ -161,38 +173,11 @@ void generate(std::vector<int> & mVec, char **av)
 	return ;
 }
 
-void mVecPrint(std::vector<std::pair<int, int> > mVec)
+void dmVecPrint(std::deque<std::pair<int, int> > mVec)
 {
-	std::vector<std::pair<int, int> >::iterator ite = mVec.begin() - 1;
+	std::deque<std::pair<int, int> >::iterator ite = mVec.begin() - 1;
 	int	i = 0;
 	while (++ite != mVec.end())
 		std::cout << mVec.at(i++).first << " " << std::ends;
 	std::cout << std::endl;
-}
-
-
-int	main(int ac, char **av)
-{
-	std::vector<int> mVec_o;
-	if (ac <= 2)
-		return (0);
-	if (av_check(av) == false)
-		return (1);
-	generate(mVec_o, av);
-	std::vector<std::pair<int, int> > mVec;
-	for (unsigned int i = 0; i < mVec_o.size(); i++)
-	{
-		mVec.push_back(std::make_pair(mVec_o[i], i));
-	}
-	time_t start, end;
-	std::cout << "Before: ";
-	mVecPrint(mVec);
-    start = clock();
-	mmerge(mVec);
-	end = clock();
-	std::cout << "After: ";
-	mVecPrint(mVec);
-	std::cout << "Time to process a range of: "
-        << mVec.size() << " elements with vector : " 
-        << (end - start) << " us" << std::endl;
 }
