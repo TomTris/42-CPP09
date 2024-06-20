@@ -6,7 +6,7 @@
 /*   By: qdo <qdo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:59:17 by qdo               #+#    #+#             */
-/*   Updated: 2024/06/19 15:01:28 by qdo              ###   ########.fr       */
+/*   Updated: 2024/06/20 07:58:41 by qdo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,43 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>  // for std::swap_ranges
+unsigned int	jacob_gen(int check, unsigned int & size)
+{
+	static unsigned int	ret = 0;
+	static unsigned int a = 2;
+	static unsigned int b = 2;
+	unsigned int        temp;
+
+    if (size == 0)
+		return (std::cout << "size = 0" << std::endl, 0);
+	if (check == 1)
+	{
+		a = 2;
+		b = 2;
+		ret = 2;
+	}
+	if (ret != 0)
+		return (--ret);
+	temp = a;
+	a = b;
+	b = 2 * temp + b;
+	ret = a - 1;
+	if (ret > size - 1)
+		ret = size - 1;
+	return (ret);
+}
 
 int main() {
 	std::vector<int> vec;
-
-	vec.push_back(0);
-	vec.push_back(1);
-	vec.push_back(2);
-	vec.push_back(3);
-	vec.push_back(4);
-	vec.push_back(5);
-	vec.push_back(6);
-	vec.push_back(7);
-	vec.push_back(8);
-	vec.push_back(9);
-    // Print original vector
-    std::cout << "Original vector: ";
-    for (const auto& val : vec) {
-        std::cout << val << " ";
+    unsigned int size = 2;
+    unsigned int a = jacob_gen(1, size);
+    while (size != 2)
+    {
+        std::cout << a << std::endl;
+        a = jacob_gen(0, size);
+        size--;
     }
-    std::cout << std::endl;
-
-    // Swap elements in positions 0-4 with elements in positions 5-9
-    std::swap_ranges(vec.begin(), vec.begin() + 5, vec.begin() + 5);
-
-    // Print modified vector
-    std::cout << "Modified vector: ";
-    for (const auto& val : vec) {
-        std::cout << val << " ";
-    }
-    std::cout << std::endl;
-
+    std::cout << a << std::endl;
+    a = jacob_gen(0, size);
     return 0;
 }
